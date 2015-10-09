@@ -1,0 +1,43 @@
+---
+
+- name: Install git dependencies
+  apt: pkg={{ item }}
+  with_items:
+    - libcurl4-gnutls-dev
+      libexpat1-dev
+      gettext
+      libz-dev
+      libssl-dev
+  when: |
+    ansible_distribution == 'Debian' or
+    ansible_distribution == 'Ubuntu'
+
+- name: Install git dependencies
+  yum: name={{ item }}
+  with_items:
+    - curl-devel
+      expat-devel
+      gettext-devel
+      openssl-devel
+      perl-devel
+      zlib-devel
+  when: |
+    ansible_distribution == 'CentOS' or
+    ansible_distribution == 'Red Hat Enterprise Linux'
+
+- name: Download git
+  get_url:
+    url: https://github.com/git/git/archive/{{ git_version }}.tar.gz
+    dest: /tmp
+
+- name: Untar git
+  command:
+    chdir: /tmp
+    creates: {{ git_version }}
+    tar -xzf {{ git_version }}.tar.gz
+
+- name: Install git
+  command:
+    chdir: /tmp/{{ git_version }}
+    creates: /usr/local/bin/git
+    make install
