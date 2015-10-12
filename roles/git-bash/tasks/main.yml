@@ -1,0 +1,29 @@
+---
+
+- name: Make directory bash_completion.d
+  file: >
+    dest={{ bash_location }}
+    state=directory
+    mode=0755
+
+- name: Download shell file
+  get_url: >
+    url={{ item }}
+    dest={{ bash_location }}
+    mode=0444
+  with_items:
+  - "{{ git_url }}/git-completion.bash"
+  - "{{ git_url }}/git-prompt.sh"
+  - "{{ git_flow_completion_url }}"
+
+- name: Copy the branch view shell script
+  copy: >
+    src={{ branch_view_shell }}
+    dest={{ bash_location }}
+
+- name: Insert source file for show branch
+  lineinfile: >
+    dest=/home/vagrant/.bash_profile
+    create=yes
+    state=present
+    line="source {{ bash_location }}/{{ branch_view_shell }}"
