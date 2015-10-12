@@ -1,3 +1,4 @@
 ---
 bash_location: /usr/local/etc/bash_completion.d 
 download_url: https://raw.githubusercontent.com/git/git/master/contrib/completion/
+branch_view_shell: branch_view.sh

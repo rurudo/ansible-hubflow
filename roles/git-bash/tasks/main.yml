@@ -14,3 +14,15 @@
   with_items:
   - git-completion.bash
   - git-prompt.sh
+
+- name: Copy the branch view shell script
+  copy: >
+    src={{ branch_view_shell }}
+    dest={{ bash_location }}
+
+- name: Insert source file for show branch
+  lineinfile: >
+    dest=/home/vagrant/.bash_profile
+    create=yes
+    state=present
+    line="source {{ bash_location }}/{{ branch_view_shell }}"
