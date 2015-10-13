@@ -2,5 +2,6 @@
 - hosts: all
   sudo: yes
   roles:
+    - ansible-role-git
     - ansible-go
     - git-bash
