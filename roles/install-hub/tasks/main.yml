@@ -1,14 +1,21 @@
 ---
 - name: Download hub
   git: repo=https://github.com/github/hub.git
-       dest="{{ hub_location }}/src"
+       dest="{{ hub_location }}/src/hub"
        version={{ hub_version }}
 
+- name: Download hub
+  get_url:
+    url: "https://github.com/github/hub/releases/download/v{{ hub_version }}/hub-linux-amd64-{{ hub_version }}.tar.gz"
+    dest: "{{ hub_location }}/hub-{{ hub_version }}.tar.gz"
+
 - name: Build hub
-  command: ./script/build
+  shell: /usr/bin/env PATH=$PATH ./script/build
   args:
     chdir: "{{ hub_location }}/src/hub"
     creates: "{{ hub_location }}/src/hub/hub"
+  environment:
+    PATH: "{{ go_location }}/bin:/usr/bin"
 
 - name: Install hub
   command: cp hub "{{ hub_location }}/bin"

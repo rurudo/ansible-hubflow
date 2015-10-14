@@ -1,2 +1,4 @@
 ---
 hub_location: /usr/local
+hub_version: v2.2.1
+go_location: /usr/local
