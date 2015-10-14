@@ -1,0 +1,25 @@
+---
+- name: Download git.
+  get_url:
+    url: "https://github.com/github/hub/releases/download/v{{ hub_version }}/{{ hub_archive }}.tar.gz"
+    dest: "{{ hub_src }}.tar.gz"
+
+- name: Expand hub archive
+  unarchive: >
+    src={{ hub_src }}.tar.gz
+    dest={{ hub_location }}/src 
+    copy=no
+    creates={{ hub_location }}/src/{{ hub_archive }}
+
+- name: Install hub
+  command: "cp hub {{ hub_location }}/bin/hub"
+  args:
+    chdir: "{{ hub_location }}/src/{{ hub_archive }}"
+    creates: "{{ hub_location }}/bin/hub"
+
+- name: Insert alias
+  lineinfile: >
+    dest="/home/{{ hub_user }}/.bash_profile"
+    create=yes
+    state=present
+    line='eval "$(hub alias -s)"'

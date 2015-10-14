@@ -1,0 +1,6 @@
+---
+hub_user: vagrant
+hub_location: /usr/local
+hub_version: 2.2.1
+hub_src: "{{ hub_location }}/src/hub-{{ git_version }}"
+hub_archive: "hub-linux-amd64-{{ hub_version }}"

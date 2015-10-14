@@ -6,3 +6,4 @@
     - ansible-go
     - git-bash
     - git-flow
+    - install-hub
