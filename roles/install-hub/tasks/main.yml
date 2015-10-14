@@ -1,31 +1,25 @@
 ---
-- name: Download hub
-  git: repo=https://github.com/github/hub.git
-       dest="{{ hub_location }}/src/hub"
-       version={{ hub_version }}
-
-- name: Download hub
+- name: Download git.
   get_url:
-    url: "https://github.com/github/hub/releases/download/v{{ hub_version }}/hub-linux-amd64-{{ hub_version }}.tar.gz"
-    dest: "{{ hub_location }}/hub-{{ hub_version }}.tar.gz"
+    url: "https://github.com/github/hub/releases/download/v{{ hub_version }}/{{ hub_archive }}.tar.gz"
+    dest: "{{ hub_src }}.tar.gz"
 
-- name: Build hub
-  shell: /usr/bin/env PATH=$PATH ./script/build
-  args:
-    chdir: "{{ hub_location }}/src/hub"
-    creates: "{{ hub_location }}/src/hub/hub"
-  environment:
-    PATH: "{{ go_location }}/bin:/usr/bin"
+- name: Expand hub archive
+  unarchive: >
+    src={{ hub_src }}.tar.gz
+    dest={{ hub_location }}/src 
+    copy=no
+    creates={{ hub_location }}/src/{{ hub_archive }}
 
 - name: Install hub
-  command: cp hub "{{ hub_location }}/bin"
+  command: "cp hub {{ hub_location }}/bin/hub"
   args:
-    chdir: "{{ hub_location }}/src/hub"
+    chdir: "{{ hub_location }}/src/{{ hub_archive }}"
     creates: "{{ hub_location }}/bin/hub"
 
 - name: Insert alias
   lineinfile: >
-    dest="/home/{{ ansible_env.user }}/.bash_profile"
+    dest="/home/{{ hub_user }}/.bash_profile"
     create=yes
     state=present
     line='eval "$(hub alias -s)"'
