@@ -1,0 +1,4 @@
+---
+gitflow_install_path: /usr/local
+gitflow_location: /usr/local/src/gitflow 
+gitflow_version: 1.8.0

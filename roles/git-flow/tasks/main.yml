@@ -1,0 +1,11 @@
+---
+- name: Download gitflow
+  git: repo=https://github.com/petervanderdoes/gitflow-avh.git
+       dest={{ gitflow_location }}
+       version={{ gitflow_version }}
+
+- name: Install gitflow
+  command: make install
+  args:
+    chdir: "{{ gitflow_location }}"
+    creates: "{{ gitflow_install_path }}/bin/git-flow"
