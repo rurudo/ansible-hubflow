@@ -3,7 +3,6 @@
   sudo: yes
   roles:
     - ansible-role-git
-    - ansible-go
     - git-bash
     - git-flow
     - install-hub

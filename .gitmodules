@@ -1,6 +1,3 @@
-[submodule "roles/ansible-go"]
-	path = roles/ansible-go
-	url = https://github.com/jlund/ansible-go
 [submodule "roles/ansible-role-git"]
 	path = roles/ansible-role-git
 	url = git@github.com:geerlingguy/ansible-role-git.git
