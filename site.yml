@@ -5,3 +5,4 @@
     - ansible-role-git
     - ansible-go
     - git-bash
+    - git-flow
