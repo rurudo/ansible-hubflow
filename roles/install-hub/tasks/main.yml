@@ -1,0 +1,24 @@
+---
+- name: Download hub
+  git: repo=https://github.com/github/hub.git
+       dest="{{ hub_location }}/src"
+       version={{ hub_version }}
+
+- name: Build hub
+  command: ./script/build
+  args:
+    chdir: "{{ hub_location }}/src/hub"
+    creates: "{{ hub_location }}/src/hub/hub"
+
+- name: Install hub
+  command: cp hub "{{ hub_location }}/bin"
+  args:
+    chdir: "{{ hub_location }}/src/hub"
+    creates: "{{ hub_location }}/bin/hub"
+
+- name: Insert alias
+  lineinfile: >
+    dest="/home/{{ ansible_env.user }}/.bash_profile"
+    create=yes
+    state=present
+    line='eval "$(hub alias -s)"'
